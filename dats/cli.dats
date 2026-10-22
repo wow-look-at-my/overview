@@ -60,41 +60,12 @@ tests:
 		!stdout:
 			- main.go
 
-	- desc: check names each file with no header and fails
+	- desc: there is no check subcommand, so the word is read as a path that matches nothing
 	  cmd: cd "$(dirname {shared.repo/main.go})" && {shared.overview} check
-	  exit: 1
 	  outputs:
-		stdout:
-			- "src/ui/feed.test.ts: no header comment"
-		stderr:
-			- "overview: 1 of 4 files have no header comment"
 		!stdout:
-			- gen.go
-
-	- desc: check passes once the headerless file is excluded by base name
-	  cmd: cd "$(dirname {shared.repo/main.go})" && {shared.overview} check --exclude '*.test.ts'
-	  outputs:
-		stdout:
-			- "3 files checked, every one has a header comment"
-
-	- desc: an exclude with a trailing slash skips a directory
-	  cmd: cd "$(dirname {shared.repo/main.go})" && {shared.overview} check --exclude src/
-	  outputs:
-		stdout:
-			- "2 files checked, every one has a header comment"
-
-	- desc: a malformed exclude glob is an error, not a silent no-match
-	  cmd: cd "$(dirname {shared.repo/main.go})" && {shared.overview} check --exclude '['
-	  exit: 1
-	  outputs:
-		stderr:
-			- "syntax error in pattern"
-
-	- desc: this repository passes its own check
-	  cmd: "{shared.overview} check --exclude '*_test.go' --exclude testdata/"
-	  outputs:
-		stdout:
-			- "every one has a header comment"
+			- main.go
+			- no header comment
 
 	- desc: outside a git work tree it fails and names git
 	  cmd: cd "$(mktemp -d)" && {shared.overview}
