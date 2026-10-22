@@ -32,6 +32,9 @@ func TestSummary(t *testing.T) {
 		{"html comment", "index.html", "<!doctype html>\n<!-- The gallery page. -->\n<html>", "The gallery page."},
 		{"html title", "index.html", "<!doctype html><html><head><title>Gallery</title>", "Gallery"},
 		{"unknown type", "data.json", "{}", ""},
+		{"glsl version line first", "x.vert.glsl", "#version 300 es\n// Fullscreen triangle from gl_VertexID.\nout vec2 vUv;\n", "Fullscreen triangle from gl_VertexID."},
+		{"glsl extension and precision", "x.frag.glsl", "#version 300 es\n#extension GL_EXT_foo : enable\nprecision highp float;\n/* Tone map. */\n", "Tone map."},
+		{"wgsl enable", "x.wgsl", "enable f16;\n// Half-float blur.\n", "Half-float blur."},
 		{"crlf", "a.go", "// Package a ends lines with CRLF.\r\npackage a\r\n", "Package a ends lines with CRLF."},
 	}
 	for _, c := range cases {

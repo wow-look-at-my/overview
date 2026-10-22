@@ -70,7 +70,7 @@ var licenseRe = regexp.MustCompile(`(?i)\b(copyright|spdx-license-identifier|lic
 
 // skipDirective reports a line that sits before a header but is not part of it.
 func skipDirective(line string) bool {
-	for _, p := range []string{"#!", "//go:", "// +build", "// @ts-", "/// <reference", "// eslint-", "// prettier-", "# syntax=", "# shellcheck ", "# -*-", "# vim:", "---"} {
+	for _, p := range []string{"#!", "//go:", "// +build", "// @ts-", "/// <reference", "// eslint-", "// prettier-", "# syntax=", "# shellcheck ", "# -*-", "# vim:", "---", "#version ", "#extension ", "precision ", "enable "} {
 		if strings.HasPrefix(line, p) {
 			return true
 		}
