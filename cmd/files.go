@@ -18,9 +18,8 @@ import (
 const readLimit = 16 << 10
 
 type file struct {
-	path      string
-	summary   string
-	generated bool
+	path    string
+	summary string
 }
 
 // listFiles lists the tracked and untracked-but-not-ignored files under paths, as git sees them.
@@ -64,7 +63,6 @@ func readFiles(paths []string) ([]file, error) {
 				return nil, err
 			}
 			f.summary = header.Summary(name, src)
-			f.generated = header.Generated(src)
 		}
 		out = append(out, f)
 	}

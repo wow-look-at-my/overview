@@ -4,7 +4,6 @@
 
 ```
 $ overview cmd internal/header/header.go internal/listing/listing.go main.go
-cmd/check.go  ← The check subcommand fails when a source file has no header comment.
 cmd/files.go  ← File listing through git, and the header read of each file.
 cmd/root.go  ← Package cmd holds the overview command line.
 internal/header/header.go  ← Package header reads the one-sentence summary from a file's leading comment.
@@ -21,11 +20,9 @@ Run it inside a git work tree. It lists what `git ls-files` lists, so ignored fi
 ```sh
 overview                 # every file
 overview src/ui          # the files under one directory
-overview check           # exit 1 when a source file has no header comment
-overview check --exclude '*.test.ts' --exclude vendor/
 ```
 
-`overview check` is the CI half: it keeps the map complete. A generated file (`Code generated ... DO NOT EDIT.`) is never flagged.
+overview only reads. [slopfix](https://github.com/wow-look-at-my/slopfix) checks that every source file carries a header comment. The map stays complete.
 
 ## Install
 

@@ -44,11 +44,6 @@ func styleOf(path string) style {
 // Commentable reports whether this package knows the comment syntax of the file type.
 func Commentable(path string) bool { return styleOf(path) != styleNone }
 
-var generatedRe = regexp.MustCompile(`(?m)^(//|#) Code generated .* DO NOT EDIT\.$`)
-
-// Generated reports whether src carries the standard "Code generated ... DO NOT EDIT." line.
-func Generated(src []byte) bool { return generatedRe.Match(src) }
-
 // Summary returns the first sentence of the file's leading comment, or "" when there is none.
 func Summary(path string, src []byte) string {
 	lines := strings.Split(strings.ReplaceAll(string(src), "\r\n", "\n"), "\n")
@@ -70,7 +65,7 @@ var licenseRe = regexp.MustCompile(`(?i)\b(copyright|spdx-license-identifier|lic
 
 // skipDirective reports a line that sits before a header but is not part of it.
 func skipDirective(line string) bool {
-	for _, p := range []string{"#!", "//go:", "// +build", "// @ts-", "/// <reference", "// eslint-", "// prettier-", "# syntax=", "# shellcheck ", "# -*-", "# vim:", "---"} {
+	for _, p := range []string{"#!", "//go:", "// +build", "// @ts-", "/// <reference", "// eslint-", "// prettier-", "# syntax=", "# shellcheck ", "# -*-", "# vim:", "---", "#version ", "#extension ", "precision ", "enable "} {
 		if strings.HasPrefix(line, p) {
 			return true
 		}
