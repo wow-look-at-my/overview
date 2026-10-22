@@ -4,20 +4,16 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/wow-look-at-my/overview/internal/tree"
-)
-
-var (
-	depth int
-	flat  bool
+	"github.com/wow-look-at-my/overview/internal/listing"
 )
 
 var rootCmd = &cobra.Command{
 	Use:   "overview [path...]",
-	Short: "Print the repository tree with each file's header summary",
-	Long: `overview prints the files git knows about as a tree. Beside each file it
-prints the first sentence of that file's leading comment. Run it from
-inside a git work tree. Paths limit the tree, as they limit git ls-files.`,
+	Short: "List the repository's files with each file's header summary",
+	Long: `overview lists the files git knows about, one full path per line. Beside
+each file it prints the first sentence of that file's leading comment. Run
+it from inside a git work tree. Paths limit the list, as they limit git
+ls-files.`,
 	// Without this, cobra reads a path such as "src" as an unknown subcommand.
 	Args:          cobra.ArbitraryArgs,
 	SilenceUsage:  true,
@@ -27,21 +23,12 @@ inside a git work tree. Paths limit the tree, as they limit git ls-files.`,
 		if err != nil {
 			return err
 		}
-		entries := make([]tree.Entry, len(files))
+		entries := make([]listing.Entry, len(files))
 		for i, f := range files {
-			entries[i] = tree.Entry{Path: f.path, Summary: f.summary}
+			entries[i] = listing.Entry{Path: f.path, Summary: f.summary}
 		}
-		if flat {
-			return tree.Flat(c.OutOrStdout(), entries)
-		}
-		return tree.Render(c.OutOrStdout(), entries, depth)
+		return listing.Write(c.OutOrStdout(), entries)
 	},
-}
-
-func init() {
-	rootCmd.Flags().IntVar(&depth, "depth", 0, "fold directories below this depth into a file count (0 = no limit)")
-	rootCmd.Flags().BoolVar(&flat, "flat", false, "print one full path per line instead of a tree")
-	rootCmd.MarkFlagsMutuallyExclusive("flat", "depth")
 }
 
 // Execute runs the command line.

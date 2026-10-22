@@ -1,4 +1,4 @@
-// Command overview prints a repository's file tree with each file's header summary.
+// Command overview lists a repository's files, each with its header summary.
 package main
 
 import (
