@@ -1,3 +1,5 @@
+// The check subcommand fails when a source file has no header comment.
+
 package cmd
 
 import (

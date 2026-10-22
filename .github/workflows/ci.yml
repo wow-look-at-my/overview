@@ -1,3 +1,4 @@
+# Builds, tests and runs the dats suite with go-toolchain on every push.
 name: CI
 
 on:

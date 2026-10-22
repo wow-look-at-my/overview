@@ -93,6 +93,12 @@ tests:
 		stderr:
 			- "syntax error in pattern"
 
+	- desc: this repository passes its own check
+	  cmd: {shared.overview} check --exclude '*_test.go' --exclude testdata/
+	  outputs:
+		stdout:
+			- "every one has a header comment"
+
 	- desc: outside a git work tree it fails and names git
 	  cmd: cd "$(mktemp -d)" && {shared.overview}
 	  exit: 1
