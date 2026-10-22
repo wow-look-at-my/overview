@@ -15,6 +15,8 @@ var rootCmd = &cobra.Command{
 	Long: `overview prints the files git knows about as a tree. Beside each file it
 prints the first sentence of that file's leading comment. Run it from
 inside a git work tree. Paths limit the tree, as they limit git ls-files.`,
+	// Without this, cobra reads a path such as "src" as an unknown subcommand.
+	Args:          cobra.ArbitraryArgs,
 	SilenceUsage:  true,
 	SilenceErrors: true,
 	RunE: func(c *cobra.Command, args []string) error {

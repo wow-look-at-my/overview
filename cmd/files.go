@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"strings"
 
+	"github.com/wow-look-at-my/go-containers/set"
 	"github.com/wow-look-at-my/overview/internal/header"
 )
 
@@ -30,13 +31,13 @@ func listFiles(paths []string) ([]string, error) {
 	if err != nil {
 		return nil, fmt.Errorf("git ls-files: %w: %s", err, strings.TrimSpace(stderr.String()))
 	}
-	seen := map[string]bool{}
+	seen := set.New[string]()
 	var files []string
 	for _, p := range strings.Split(string(out), "\x00") {
-		if p == "" || seen[p] {
+		if p == "" || seen.Contains(p) {
 			continue
 		}
-		seen[p] = true
+		seen.Add(p)
 		// A file deleted from the work tree but still in the index has no content to read.
 		if st, err := os.Stat(p); err != nil || !st.Mode().IsRegular() {
 			continue

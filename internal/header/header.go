@@ -25,7 +25,7 @@ var byExt = map[string]style{
 	".rs": styleSlash, ".java": styleSlash, ".kt": styleSlash, ".swift": styleSlash, ".proto": styleSlash,
 	".sh": styleHash, ".bash": styleHash, ".zsh": styleHash, ".py": styleHash, ".rb": styleHash,
 	".yml": styleHash, ".yaml": styleHash, ".toml": styleHash, ".mk": styleHash, ".dats": styleHash,
-	".md": styleMarkdown,
+	".md":   styleMarkdown,
 	".html": styleHTML, ".htm": styleHTML,
 }
 
