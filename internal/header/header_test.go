@@ -53,6 +53,5 @@ func TestCommentable(t *testing.T) {
 	assert.False(t, Commentable("logo.png"))
 }
 
-
 //go:embed testdata/test-summary.sh
 var testSummarySh string

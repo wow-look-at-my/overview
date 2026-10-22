@@ -44,7 +44,6 @@ func styleOf(path string) style {
 // Commentable reports whether this package knows the comment syntax of the file type.
 func Commentable(path string) bool { return styleOf(path) != styleNone }
 
-
 // Summary returns the first sentence of the file's leading comment, or "" when there is none.
 func Summary(path string, src []byte) string {
 	lines := strings.Split(strings.ReplaceAll(string(src), "\r\n", "\n"), "\n")
