@@ -94,7 +94,7 @@ tests:
 			- "syntax error in pattern"
 
 	- desc: this repository passes its own check
-	  cmd: {shared.overview} check --exclude '*_test.go' --exclude testdata/
+	  cmd: "{shared.overview} check --exclude '*_test.go' --exclude testdata/"
 	  outputs:
 		stdout:
 			- "every one has a header comment"
