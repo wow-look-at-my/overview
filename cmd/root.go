@@ -7,7 +7,10 @@ import (
 	"github.com/wow-look-at-my/overview/internal/tree"
 )
 
-var depth int
+var (
+	depth int
+	flat  bool
+)
 
 var rootCmd = &cobra.Command{
 	Use:   "overview [path...]",
@@ -28,12 +31,17 @@ inside a git work tree. Paths limit the tree, as they limit git ls-files.`,
 		for i, f := range files {
 			entries[i] = tree.Entry{Path: f.path, Summary: f.summary}
 		}
+		if flat {
+			return tree.Flat(c.OutOrStdout(), entries)
+		}
 		return tree.Render(c.OutOrStdout(), entries, depth)
 	},
 }
 
 func init() {
 	rootCmd.Flags().IntVar(&depth, "depth", 0, "fold directories below this depth into a file count (0 = no limit)")
+	rootCmd.Flags().BoolVar(&flat, "flat", false, "print one full path per line instead of a tree")
+	rootCmd.MarkFlagsMutuallyExclusive("flat", "depth")
 }
 
 // Execute runs the command line.

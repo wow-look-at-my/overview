@@ -4,6 +4,7 @@ package tree
 import (
 	"fmt"
 	"io"
+	"slices"
 	"sort"
 	"strings"
 	"unicode/utf8"
@@ -48,6 +49,21 @@ func Render(w io.Writer, entries []Entry, depth int) error {
 		cur.summary = e.Summary
 	}
 	return renderChildren(w, root, "", 1, depth)
+}
+
+// Flat writes one full path per line, sorted, each with its summary.
+func Flat(w io.Writer, entries []Entry) error {
+	sorted := slices.SortedFunc(slices.Values(entries), func(a, b Entry) int { return strings.Compare(a.Path, b.Path) })
+	for _, e := range sorted {
+		line := e.Path
+		if e.Summary != "" {
+			line += "  ← " + e.Summary
+		}
+		if _, err := fmt.Fprintln(w, line); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func sorted(n *node) []*node {

@@ -68,6 +68,21 @@ func TestRenderCapsPadding(t *testing.T) {
 	assert.Contains(t, out, long+"  ← B.")
 }
 
+func TestFlatSortsFullPaths(t *testing.T) {
+	var b strings.Builder
+	require.NoError(t, Flat(&b, sample))
+	want := strings.Join([]string{
+		"LICENSE",
+		"cmd/root.go  ← Package cmd holds the CLI.",
+		"internal/header/header.go  ← Package header reads headers.",
+		"internal/header/header_test.go",
+		"internal/tree/tree.go  ← Package tree draws trees.",
+		"main.go  ← Command overview prints the tree.",
+		"",
+	}, "\n")
+	assert.Equal(t, want, b.String())
+}
+
 func TestRenderEmpty(t *testing.T) {
 	assert.Equal(t, "", render(t, nil, 0))
 }

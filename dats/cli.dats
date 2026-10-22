@@ -55,6 +55,22 @@ tests:
 		!stdout:
 			- feed.ts
 
+	- desc: --flat prints one sorted full path per line with its summary
+	  cmd: cd "$(dirname {shared.repo/main.go})" && {shared.overview} --flat
+	  outputs:
+		stdout:
+			0: '^\.gitignore$'
+			6: '^src/ui/feed\.ts  ← <feed> — a log table\.$'
+		!stdout:
+			- "├──"
+
+	- desc: --flat and --depth together are an error
+	  cmd: cd "$(dirname {shared.repo/main.go})" && {shared.overview} --flat --depth 1
+	  exit: 1
+	  outputs:
+		stderr:
+			- "none of the others can be"
+
 	- desc: a path argument limits the tree
 	  cmd: cd "$(dirname {shared.repo/main.go})" && {shared.overview} src
 	  outputs:
